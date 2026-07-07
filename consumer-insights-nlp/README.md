@@ -1,76 +1,73 @@
-# Consumer Sentiment Pipeline: NLP Analysis of 5,127 Wireless Speaker Reviews
+# Consumer Sentiment Pipeline: Data-Informed Competitive Positioning for Beats by Dre
 
 ![Python](https://img.shields.io/badge/Python-3.10-blue?logo=python&logoColor=white)
 ![Pandas](https://img.shields.io/badge/Pandas-2.x-150458?logo=pandas&logoColor=white)
 ![TextBlob](https://img.shields.io/badge/TextBlob-NLP-green)
 ![Matplotlib](https://img.shields.io/badge/Matplotlib-Visualization-orange)
-![Seaborn](https://img.shields.io/badge/Seaborn-4c9fcf)
+
+> **Role context:** Data analytics externship — built and operated the analysis pipeline, synthesized findings into a competitive positioning recommendation.
 
 ---
 
 ## Problem
 
-Beats by Dre needed to understand how their wireless speaker line performed against JBL, UE BOOM, and Sony — not just on star ratings, but on the specific language customers used to describe sound quality, battery life, and build quality. Raw review data existed but had no structure for competitive comparison. The ask: turn 5,000+ unstructured Amazon reviews into a decision-ready competitive analysis.
+Beats by Dre had star rating data for their Pill speaker and four competitors (JBL Flip 6, JBL Charge 5, UE BOOM 3, Sony SRS-XB100), but star ratings don't tell you *why* customers feel the way they do or which product attributes actually drive satisfaction. The question: where is Beats outperforming competitors in customer language, and where are competitors building stronger associations that could threaten Beats' positioning?
+
+This is a product question dressed as a data question. The analysis was the method; the deliverable was a positioning recommendation.
 
 ---
 
-## What It Does
+## Approach
 
-A three-stage Python pipeline that processes raw Amazon review data into competitive intelligence:
+Built a three-stage Python pipeline on 5,127 Amazon reviews:
 
-1. **EDA** — Cleans 5,127 reviews across 5 products, surfaces rating distributions, review volume trends, and outlier detection using IQR. Produces 13 charts.
-2. **Sentiment Analysis** — Applies TextBlob to score every review for polarity (−1 to +1) and subjectivity. Classifies reviews as Positive/Neutral/Negative and compares distributions across brands. Produces 10 charts including word clouds and a quarterly polarity heatmap.
-3. **Correlation Analysis** — Builds a full numeric correlation matrix across rating, review length, helpful votes, and verified purchase status. Breaks down per-product to surface brand-specific patterns. Produces 7 charts.
+**Stage 1 — EDA:** Cleaned and structured raw review data. Surfaced rating distributions, review volume by product, verification rates, and review length patterns. IQR outlier detection on both ratings and review length.
+
+**Stage 2 — Sentiment Analysis:** Applied TextBlob NLP to score every review for polarity (−1 to +1) and subjectivity. Classified reviews as Positive/Neutral/Negative. Compared sentiment distributions across brands and tracked polarity trends over time.
+
+**Stage 3 — Correlation Analysis:** Built a full numeric correlation matrix across rating, review length, helpful votes, and verified purchase status. Broke down per-product to surface brand-specific patterns. Generated word frequency analysis to identify which specific attributes each brand "owned" in customer language.
+
+---
+
+## Product Decisions (as the analyst)
+
+**Why TextBlob over a fine-tuned model?** The audience for this analysis was a product and marketing team, not a data science team. TextBlob's polarity scores are auditable — a stakeholder can look at a specific review and understand why it scored −0.4 without trusting a black box. Interpretability > precision for a findings presentation.
+
+**Why stage the pipeline instead of one script?** Each stage outputs a validated CSV before the next stage runs. This mirrors how you'd structure a real data pipeline where a downstream team might consume Stage 1 output independently (e.g., marketing using the EDA data for a different analysis).
+
+---
+
+## Outcome: What the Data Changed
+
+Star ratings alone suggested Beats Pill was leading (4.47★ vs. 4.46★ for JBL Charge 5 — effectively tied). Sentiment and word frequency analysis told a different story:
+
+- **Beats "owned" sound quality and bass** in positive review language — strong emotional association with audio performance
+- **JBL owned battery and durability** — customers chose JBL language when talking about reliability and longevity
+- **Implication:** Beats' competitive risk isn't a better-sounding speaker — it's JBL building a "lasts longer, works everywhere" positioning that appeals to a different buyer motivation entirely
+
+The competitive analysis report reframed the recommendation from "maintain audio quality messaging" to "address the durability perception gap before it becomes a retention problem."
+
+---
+
+## Artifacts
 
 ```
-data/raw/           → original dataset (5,127 reviews, 5 products)
-scripts/            → eda.py, sentiment.py, correlation.py, visualizations.py
-data/processed/     → cleaned CSVs output by each stage
-visualizations/     → 30 charts organized by analysis type
-reports/            → competitive analysis doc, EDA writeup
+scripts/consumer_insights_eda.py
+scripts/consumer_insights_sentiment.py
+scripts/consumer_insights_correlation.py
+scripts/consumer_insights_visualizations.py
+data/processed/          → cleaned CSVs from each stage
+visualizations/eda/      → 13 EDA charts
+visualizations/sentiment/→ 10 sentiment charts
+visualizations/correlation/ → 7 correlation charts
+reports/                 → competitive analysis report, EDA writeup
 ```
 
----
-
-## Product Decisions & Tradeoffs
-
-**Why TextBlob over VADER or a fine-tuned model?** TextBlob is interpretable without ML infrastructure — the polarity score is a direct lexicon lookup, which means a product or marketing stakeholder can audit why a review scored −0.4 without needing to trust a black box. VADER would have been stronger for short, informal text, but the priority here was explainability over precision. A v2 would benchmark both against a hand-labeled sample.
-
-**Why separate EDA, sentiment, and correlation into three scripts instead of one?** Each stage produces its own output CSV that can be independently validated before the next stage runs. This mirrors a real data pipeline where you'd want a checkpoint before passing data downstream. The tradeoff is more files to manage, but the debugging benefit outweighs it at this scale.
-
-**Why keep the raw data in the repo?** The raw CSV is 2.3 MB — small enough to commit without LFS, and keeping it means anyone can reproduce every output from scratch without needing access to an external data source. Larger datasets would go behind LFS or a data catalog reference.
-
-**What the data can't answer:** Amazon reviews self-select for strong opinions — 5-star and 1-star clusters are overrepresented relative to actual purchase satisfaction. The sentiment pipeline reflects review language, not a random sample of customer sentiment. This was documented in the competitive analysis report to prevent misuse of the findings.
-
-**Key finding that changed the competitive framing:** Beats Pill led on average star rating (4.47★) but JBL Charge 5 was within 0.01 stars. The real differentiation came from sentiment: Beats reviews concentrated positive language on "bass" and "sound quality," while JBL reviews concentrated on "battery" and "durability." That's a different positioning story than ratings alone — it reframed the analysis from "Beats is winning" to "Beats and JBL are winning on different dimensions."
-
----
-
-## Tech
-
-| Tool | Purpose |
-|---|---|
-| `pandas` | Data cleaning, transformation, groupby aggregations |
-| `numpy` | IQR outlier detection, normalization, vectorized ops |
-| `textblob` | Polarity and subjectivity scoring |
-| `matplotlib` / `seaborn` | All 30 charts |
-| `wordcloud` | Positive vs. negative vocabulary clouds |
-
----
-
-## How to Run
-
+**How to run:**
 ```bash
 pip install pandas numpy textblob matplotlib seaborn wordcloud
 python -m textblob.download_corpora
-
-# Update the data path on line 18 of each script:
-# df = pd.read_csv('data/raw/new_reference_data_for_beats.csv')
-
 python scripts/consumer_insights_eda.py
 python scripts/consumer_insights_sentiment.py
 python scripts/consumer_insights_correlation.py
-python scripts/consumer_insights_visualizations.py
 ```
-
-Each script prints a summary of findings and saves outputs to `data/processed/` and `visualizations/`.
