@@ -28,6 +28,49 @@ I want to build products that work for people — not just products that work. I
 
 ---
 
+## Internship Work
+
+These two case studies cover real internship work — verified deliverables, real stakeholders, real outcomes. Neither is software product management, but both demonstrate the underlying PM skills (business case writing, stakeholder segmentation, system design, launch planning) in contexts where the decisions actually mattered.
+
+---
+
+### Tellegacy: Launching a Loneliness-Reduction Program at 25 Nursing Homes
+
+> **PM Internship** · Jan 2026–Present · Program launch, grant strategy, operational infrastructure
+
+**Problem:** Tellegacy had a proven intergenerational program model — trained student "Legacy Builders" conducting 10 structured sessions with nursing home residents, culminating in a bound Legacy Book. Scaling it to 25 North Dakota facilities required a funded business case, a facility recruitment pipeline, and a program infrastructure facilities could sustain independently after funding ended. None of those existed.
+
+**What I owned:**
+- Co-wrote the $187,500 CMP federal grant application: problem narrative, 12-month implementation plan, budget justification (audited the spreadsheet, benchmarked comparable approved budgets, documented every cost line with explicit calculation rather than round numbers), and sustainability appendix
+- Built the grant intelligence database: 40+ federal and foundation programs tracked with focus tags, nursing home fit rating, award size benchmarks, deadline status, and strategy notes — designed as a filterable decision tool, not a list of links
+- Built the stakeholder outreach database: 15+ ND healthcare associations and GWEP university partners researched, individual point-of-contact identified at each
+- Flagged letters of participation as the critical dependency before the budget was finalized — facility commitments, not narrative quality, were the gate on grant approval
+
+**Key decision:** Designed the program for train-the-trainer delivery from the start — so facilities could run Tellegacy after CMP funding ended at near-zero marginal cost (staff time + printing). The alternative, Tellegacy-staffed delivery at all 25 sites, would have collapsed when the grant period closed.
+
+**Outcome:** $187,500 grant application submitted. Program scoped for up to 200 residents served (3–8 per facility × 25 facilities). Grant inventory tracking 40+ opportunities with deadlines and fit scores. Standardized toolkit designed to reduce administrative lead time for future site launches by ~20%.
+
+📁 [`tellegacy-pm-internship/`](./tellegacy-pm-internship/)
+
+---
+
+### CBATES / DFW Metro NAACP: Outreach System for a Youth STEAM Initiative
+
+> **PM Internship** · Dec 2024–Feb 2025 · Stakeholder pipeline, communication system design, AI-assisted content generation
+
+**Problem:** The annual DFW Metro NAACP Youth Gaming Expo needed to recruit volunteers, youth participants, and financial supporters across 36 organizations simultaneously — each requiring different messaging. One generic communication would fail all three audiences. And at a small org, writing 30+ tailored stakeholder messages by hand would take 15+ hours per project phase.
+
+**What I owned:**
+- Designed a three-variant stakeholder communication system: standard volunteer recruitment, D9 Greek org version with financial contribution ask (recognizing chapter funding pools as an available resource a generic letter leaves untapped), and school district participant outreach with a STEAM education framing
+- Built a prompt-based AI workflow to generate 30+ tailored communications at scale: structured a brief template (recipient type, org name, relevant details, ask type) → used it to generate per-org messages → human review before send for tone and factual accuracy. Drafting time: 15 hours → under 2 hours per project phase
+- Contributed to event-day logistics design: proposed wristband system (vs. re-verification at re-entry) to eliminate check-in bottleneck, designed shift structure across venue areas, pushed for two short pre-event Zoom huddles over a long briefing document to reduce volunteer no-show friction
+
+**Outcome:** Gaming Expo executed February 1, 2025. 36 organizations engaged. Potential reach: 379,561+ students across Frisco ISD (65K), Lewisville ISD (49K), Plano ISD (49K), and 30+ other DFW-area school districts.
+
+📁 [`cbates-pm-internship/`](./cbates-pm-internship/)
+
+---
+
 ## Case Studies
 
 ### — Externship —
