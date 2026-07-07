@@ -1,5 +1,17 @@
 # Corey Farrow — Product Management Portfolio
 
+## Start Here
+
+Two things before you scroll:
+
+→ **[DORA Metrics Dashboard](./dora-metrics-dashboard/)** — a working Python CLI that pulls all four DevOps performance metrics for any GitHub repo and classifies them against DORA's Elite/High/Medium/Low bands. The [README](./dora-metrics-dashboard/) documents proxy decisions the same way a PRD documents scope decisions.
+
+→ **[GitHub Actions: Flaky Test Detection](./github-actions-case-study/)** — a full feature teardown + mini-PRD for a real gap in CI/CD tooling. RICE scoring, competitive benchmarks against BuildKite and CircleCI, and explicit tradeoff documentation.
+
+**What I bring:** UVA Sociology (Organizations & Work) + two PM internships + a BeReal PM externship. My edge is reading the gap between how systems are designed and how people actually use them — then translating that into product decisions that can be scoped, prioritized, and shipped.
+
+---
+
 ## Why Product Management
 
 Sociology is the study of how systems shape human behavior — and how humans, in turn, reshape systems. My concentration at UVA is Global Economy, Organizations, and Work: how institutions are designed, how people move through them, and where the design breaks down.
@@ -16,7 +28,9 @@ I want to build products that work for people — not just products that work. I
 
 ---
 
-## Product Case Studies
+## Case Studies
+
+### — Externship —
 
 ---
 
@@ -48,49 +62,17 @@ I want to build products that work for people — not just products that work. I
 - Scoped Mood Prompt as opt-in after identifying that mandatory mood selection before the camera opens risks post abandonment — it adds a decision gate to a behavior that works precisely because it's frictionless.
 - Chose focus group over A/B test because the feature was pre-prototype. The right first question was whether emotional context feels authentic or forced, not which version converts better.
 
+**So what:** A 3–5% lift in 30-day retention at BeReal's 25M DAU scale represents 750K–1.25M more retained users — a material metric for a product that was acquired for $537M and needed to demonstrate engagement depth, not just breadth.
+
 📁 **Artifacts:** [`bereal-feature-prioritization/`](./bereal-feature-prioritization/)
 
 ---
 
-### B2B Workflow Teardown: Asana's Momentum Gap — Self-Directed Feature Teardown
-
-> **Self-directed** · Competitive teardown of Jira / Linear / Asana + feature proposal
-
-**Problem:** Asana, Jira, and Linear are all built around task creation and deadlines. None have a mechanism for detecting mid-execution stall before a task is already overdue. The notification model across all three is deadline-reactive: you learn something is late after it's late. By the time the alert fires, the sprint is already broken. PMs managing cross-functional work don't know which tasks need attention until the damage is done.
-
-**Proposed feature — Workflow Health Signals:** A real-time stall detection layer that tracks activity signals at the task level (comments, subtask completion, status transitions) and surfaces a "Health" indicator before a task crosses its deadline. Flags at-risk tasks in a weekly digest for project owners; sends a lightweight in-app nudge to assignees.
-
-**Scoping rationale:**
-- Rules-based heuristic in v1, not ML — "your task hasn't had activity in 4 days" is interpretable; a confidence score isn't
-- No automated status updates — automation hides the signal instead of surfacing it
-- Nudge copy framed as "anything blocking you?" not "you haven't updated this" — will A/B test in beta
-
-**RICE score vs. alternatives:** 141 (vs. Smart Status Auto-Update at 112, OKR Linking at 42, AI Task Summarizer at 80) — wins on Impact (stall is the root cause of missed sprint commitments) and Reach (affects every PM and EM, not a niche workflow).
-
-📁 **Full teardown:** [`b2b-workflow-teardown/`](./b2b-workflow-teardown/) — competitive landscape, full RICE table, PRD-Lite, success metrics, key tradeoffs, v2 roadmap.
+### — Self-Directed Teardowns —
 
 ---
 
-### Consumer Growth Teardown: Instagram's Authenticity Problem — Self-Directed Feature Teardown
-
-> **Self-directed** · Growth loop analysis + feature proposal targeting social retention at consumer scale
-
-**Problem:** Instagram's posting rate among casual users is declining while passive consumption grows. The platform is bifurcating into creators and audience — eroding the social reciprocity that drives long-term retention. BeReal's 62.5% DAU:MAU ratio (vs. Instagram's estimated 30-35%) and 70% daily post rate demonstrate that demand for casual authentic sharing is strong. The friction isn't desire — it's Instagram's performance mechanics: algorithmic ranking, public like counts, and follower signals make posting feel high-stakes.
-
-**Proposed feature — Real Circle:** A separate tab within Instagram — not a new app — with four structural constraints: visible only to Close Friends (max 50), chronological order only, like counts visible to poster only, one post per day. Leverages Instagram's existing Close Friends infrastructure without requiring users to rebuild a social graph elsewhere.
-
-**Key decisions:**
-- Tab, not separate app — Threads proved that splitting off a feature doesn't transfer the social graph
-- One post per day is structural, not arbitrary — the daily cap removes the "which post is best?" decision; without it, performance anxiety returns
-- No ads in v1 — Real Circle only works if users perceive it as architecturally distinct from the main feed
-
-**RICE score vs. alternatives:** 121 (vs. Remove Public Like Counts at 93, Chronological Friends Feed at 74) — wins on Reach (builds on existing Close Friends behavior) and Impact (targets posting frequency among lapsed users, the metric that drives reciprocity and retention).
-
-📁 **Full teardown:** [`consumer-growth-teardown/`](./consumer-growth-teardown/) — growth loop analysis, RICE table, PRD-Lite, competitive context (BeReal, Snapchat, Threads).
-
----
-
-### GitHub Actions: Flaky Test Detection & Triage — Self-Directed Feature Teardown
+### GitHub Actions: Flaky Test Detection & Triage
 
 > **Self-directed** · Mini-PRD for a real product gap in GitHub Actions
 
@@ -103,19 +85,61 @@ I want to build products that work for people — not just products that work. I
 - No auto-retry in v1 — automating re-runs hides test debt instead of surfacing it; visibility first
 - Acknowledgement expires in 30 days to prevent tests from silently staying broken
 
-**RICE score vs. alternatives:** 144 (vs. Workflow Cost Attribution at 59, Matrix Build Visualization at 80) — wins on Reach (JUnit XML is already common) and Impact (directly reduces Lead Time, a core DORA metric).
+**RICE score vs. alternatives:** 144 (vs. Workflow Cost Attribution at 59, Matrix Build Visualization at 80, Required Workflow Approvals at 90) — wins on Reach (JUnit XML is already common) and Impact (directly reduces Lead Time, a core DORA metric).
+
+**So what:** A 20% reduction in re-run rate across repos that adopt JUnit XML upload would reclaim millions of CI compute minutes per week at GitHub's scale — a direct input into the developer productivity metrics GitHub surfaces to enterprise customers.
 
 📁 **Full teardown:** [`github-actions-case-study/`](./github-actions-case-study/)
 
 ---
 
-## Technical Skills
+### B2B Workflow Teardown: Asana's Momentum Gap
 
-These projects demonstrate the quantitative and analytical work that underlies data-informed product decisions — scoping success metrics, evaluating user research data, and pressure-testing assumptions before writing a PRD.
+> **Self-directed** · Competitive teardown of Jira / Linear / Asana + feature proposal
+
+**Problem:** Asana, Jira, and Linear are all built around task creation and deadlines. None have a mechanism for detecting mid-execution stall before a task is already overdue. The notification model across all three is deadline-reactive: you learn something is late after it's late. By the time the alert fires, the sprint is already broken.
+
+**Proposed feature — Workflow Health Signals:** A real-time stall detection layer that tracks activity signals at the task level (comments, subtask completion, status transitions) and surfaces a "Health" indicator before a task crosses its deadline. Flags at-risk tasks in a weekly digest for project owners; sends a lightweight in-app nudge to assignees.
+
+**Scoping rationale:**
+- Rules-based heuristic in v1, not ML — "your task hasn't had activity in 4 days" is interpretable; a confidence score isn't
+- No automated status updates — automation hides the signal instead of surfacing it
+- Nudge copy framed as "anything blocking you?" not "you haven't updated this" — will A/B test in beta
+
+**RICE score vs. alternatives:** 141 (vs. Smart Status Auto-Update at 112, OKR Linking at 42, AI Task Summarizer at 80) — wins on Impact (stall is the root cause of missed sprint commitments) and Reach (affects every PM and EM, not a niche workflow).
+
+**So what:** A 20% reduction in overdue task rate would shift Asana's enterprise renewal conversation from "seat stickiness" to "sprint outcome improvement" — a stronger ROI argument against Notion and Linear in competitive deals.
+
+📁 **Full teardown:** [`b2b-workflow-teardown/`](./b2b-workflow-teardown/)
 
 ---
 
-### DORA Metrics Dashboard — DevOps Tool (Python / GitHub API)
+### Consumer Growth Teardown: Instagram's Authenticity Problem
+
+> **Self-directed** · Growth loop analysis + feature proposal targeting social retention at consumer scale
+
+**Problem:** Instagram's posting rate among casual users is declining while passive consumption grows. The platform is bifurcating into creators and audience — eroding the social reciprocity that drives long-term retention. BeReal's 62.5% DAU:MAU ratio (vs. Instagram's estimated 30-35%) and 70% daily post rate demonstrate that demand for casual authentic sharing is strong. The friction is Instagram's performance mechanics: algorithmic ranking, public like counts, and follower signals make posting feel high-stakes.
+
+**Proposed feature — Real Circle:** A separate tab within Instagram with four structural constraints: visible only to Close Friends (max 50), chronological order only, like counts visible to poster only, one post per day. Leverages Instagram's existing Close Friends infrastructure without requiring users to rebuild a social graph elsewhere.
+
+**Key decisions:**
+- Tab, not separate app — Threads proved that splitting off a feature doesn't transfer the social graph
+- One post per day is structural, not arbitrary — the daily cap removes the "which post is best?" decision; without it, performance anxiety returns
+- No ads in v1 — Real Circle only works if users perceive it as architecturally distinct from the main feed
+
+**RICE score vs. alternatives:** 121 (vs. Remove Public Like Counts at 93, Chronological Friends Feed at 74).
+
+**So what:** Reactivating even 10% of Instagram's lapsed casual posters would add hundreds of millions of additional posts per week, directly addressing the DAU/MAU compression Meta reports quarterly and restoring the reciprocal social graph activity that drives long-term retention over passive consumption.
+
+📁 **Full teardown:** [`consumer-growth-teardown/`](./consumer-growth-teardown/)
+
+---
+
+## Built Tools
+
+---
+
+### DORA Metrics Dashboard — Python / GitHub API
 
 > **Built project** · Functional CLI tool
 
@@ -128,7 +152,13 @@ python main.py expressjs/express --days 90
 
 Built this to understand what DevOps teams actually measure and where the tooling gaps are. The README documents the proxy decisions (why Releases instead of workflow runs, why median instead of mean) in the same way a PM would document scope decisions in a PRD.
 
+**So what:** Running this against any public repo surfaces DORA band classification in under 30 seconds — useful for benchmarking a team's pipeline health before a product review or scoping a DevOps tooling conversation.
+
 📁 [`dora-metrics-dashboard/`](./dora-metrics-dashboard/)
+
+---
+
+## Technical Skills
 
 ---
 
@@ -136,13 +166,13 @@ Built this to understand what DevOps teams actually measure and where the toolin
 
 > **Externship** · Data analytics role — built the pipeline, synthesized findings into a positioning recommendation
 
-Analyzed 5,127 Amazon reviews across 5 headphone brands. Sound quality scored 4.47/5 — strong. But 53% of respondents said they were unlikely to purchase. That gap between product satisfaction and purchase intent is a sociological phenomenon: Beats is winning the listening experience but losing the purchase decision.
+Analyzed 5,127 Amazon reviews across 5 headphone brands. Sound quality averaged 4.47★ for Beats Pill — essentially tied with JBL Charge 5 at 4.46★. But sentiment and word frequency analysis told a different story: Beats owned "bass" and "sound quality" in positive review language; JBL owned "battery" and "durability." The competitive risk wasn't a better-sounding speaker — it was JBL building a reliability positioning that targets a different buyer motivation entirely.
 
-Word frequency analysis confirmed: Beats owned "bass" and "sound quality" in positive language; JBL owned "battery" and "durability." The competitive risk wasn't a better-sounding speaker — it was JBL building a reliability positioning that targets a fundamentally different buyer motivation.
+A separate survey (n=4,979) found that 53% of respondents were unlikely to purchase despite the strong satisfaction scores — a gap between product quality and purchase intent that the review analysis helped explain: Beats wins the listening experience but hasn't closed the "will it last?" objection that drives the final purchase decision.
 
 The skill that transfers to PM work: using data to reframe the question, not just answer it. Star ratings said "you're tied." Deeper analysis said "you're differentiated in ways you may not be deliberately building."
 
-*(5,127 reviews · r = +0.83 polarity-rating correlation · 30 charts)*
+*(5,127 Amazon reviews · r = +0.83 polarity-to-rating correlation · 30 charts)*
 
 📁 [`consumer-insights-nlp/`](./consumer-insights-nlp/)
 
@@ -156,4 +186,4 @@ Regression analysis, hypothesis testing, probability, and survey data analysis (
 
 ---
 
-**Contact:** coreyfarrow25@gmail.com · [LinkedIn](https://linkedin.com/in/coreyfarrowjr)
+**Contact:** coreyfarrow25@gmail.com · [LinkedIn](https://www.linkedin.com/in/coreyfarrow/)

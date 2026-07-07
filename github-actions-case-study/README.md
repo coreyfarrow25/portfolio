@@ -15,7 +15,7 @@ Flaky tests — tests that fail non-deterministically without a real code regres
 - **Lead time inflation:** each re-run adds 5–30 minutes of idle wait, directly inflating the Lead Time for Changes DORA metric
 - **Invisible debt:** flaky tests are tracked, if at all, in wikis, Slack threads, or by institutional memory — not in the tool where the failures appear
 
-GitHub Actions has no native flaky test detection. Competing CI platforms (BuildKite, CircleCI, Buildkite) have shipped partial solutions, creating a gap in a core GitHub product surface that developers visit multiple times daily.
+GitHub Actions has no native flaky test detection. Competing CI platforms (BuildKite, CircleCI, Datadog CI) have shipped partial solutions, creating a gap in a core GitHub product surface that developers visit multiple times daily.
 
 **The root cause isn't the flaky tests themselves — it's that GitHub Actions has no memory.** Every run is stateless from the product's perspective. A test that has failed on the first run and passed on re-run 40 times in the last 90 days looks identical to a test that just broke for the first time.
 
