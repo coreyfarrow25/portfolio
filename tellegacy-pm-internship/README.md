@@ -30,9 +30,11 @@ The Civil Money Penalty (CMP) grant program redirects regulatory penalty funds f
 
 **My contributions to the application:**
 
-- Drafted the program narrative: problem framing (ND nursing home loneliness rates), goals and objectives, 12-month implementation plan (Months 1–2: facility recruitment and setup; Months 3–11: weekly session delivery; Months 6–12: Legacy Book production; Month 12: evaluation and reporting)
+- Drafted the program narrative: problem framing (ND nursing home loneliness rates), 6 goals and objectives, and a 4-phase 12-month implementation plan with explicit milestones (Months 1–2: facility recruitment and setup; Months 3–11: weekly 45–60 minute sessions; Months 6–12: Legacy Book production; Month 12: evaluation and reporting to ND HHS and CMS)
+- Built the evaluation framework: primary outcome measured using the **UCLA 3-item Loneliness Scale** administered pre/post program — a validated clinical instrument, not a custom survey — plus session attendance logs, mood/engagement indicators, and qualitative feedback from residents, staff, and volunteers. Monthly summaries required by ND HHS.
 - Built the budget justification framework: audited the draft budget spreadsheet for internal consistency, benchmarked comparable grant budgets from similar programs to standardize line-item justification language, and ensured every cost line traced to a specific program activity
 - Documented the mileage calculation explicitly (9,880 miles × $0.725/mile = $7,113.60) rather than using a round number — a common red flag that funders associate with fabricated estimates
+- Drafted the risk/mitigation framework: 4 identified risks (resident health decline, volunteer turnover, scheduling limitations, facility disruptions) with specific mitigations for each, including supplemental volunteer lists, flexible/remote session options, and weekly coordination check-ins
 - Drafted the sustainability appendix: how facilities continue Tellegacy after CMP funding ends (train-the-trainer model, costs limited to staff time and printing, integration with existing QAPI tracking)
 - Wrote the stakeholder involvement plan: how residents, families, and direct-care staff shape session timing, outreach messaging, and outcome reporting
 
