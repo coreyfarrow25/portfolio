@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BeReal Business Snapshot – Step 3</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f8f8f6; color: #1a1a1a; padding: 2rem; }
+  .page { max-width: 860px; margin: 0 auto; }
+  .snap-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 12px; }
+  .snap-title { font-size: 24px; font-weight: 500; color: #1a1a1a; margin: 0 0 4px; }
+  .snap-sub { font-size: 13px; color: #666; margin: 0; }
+  .status-pill { display: inline-flex; align-items: center; gap: 6px; background: #EAF3DE; color: #3B6D11; font-size: 12px; padding: 5px 14px; border-radius: 20px; font-weight: 500; }
+  .status-dot { width: 7px; height: 7px; border-radius: 50%; background: #639922; flex-shrink: 0; }
+  .metrics-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-bottom: 1.25rem; }
+  .metric-card { background: #ededea; border-radius: 8px; padding: 14px 16px; }
+  .metric-val { font-size: 22px; font-weight: 500; color: #1a1a1a; line-height: 1.1; }
+  .metric-label { font-size: 11px; color: #666; margin-top: 4px; line-height: 1.4; }
+  .metric-badge { display: inline-block; font-size: 10px; font-weight: 500; padding: 2px 7px; border-radius: 10px; margin-top: 5px; }
+  .badge-green { background: #EAF3DE; color: #3B6D11; }
+  .badge-amber { background: #FAEEDA; color: #854F0B; }
+  .sections { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+  .card { background: #fff; border: 0.5px solid rgba(0,0,0,0.12); border-radius: 12px; padding: 1rem 1.25rem; }
+  .card-title { font-size: 11px; font-weight: 500; color: #666; text-transform: uppercase; letter-spacing: 0.06em; margin: 0 0 10px; display: flex; align-items: center; gap: 7px; }
+  .card-title i { font-size: 15px; }
+  .timeline { display: flex; flex-direction: column; gap: 10px; }
+  .tl-item { display: flex; gap: 10px; align-items: flex-start; }
+  .tl-dot { width: 8px; height: 8px; border-radius: 50%; background: #378ADD; flex-shrink: 0; margin-top: 5px; }
+  .tl-year { font-size: 11px; font-weight: 500; color: #185FA5; min-width: 32px; flex-shrink: 0; margin-top: 2px; }
+  .tl-text { font-size: 12px; color: #1a1a1a; line-height: 1.4; }
+  .funding-row { display: flex; align-items: center; gap: 8px; padding: 7px 0; border-bottom: 0.5px solid rgba(0,0,0,0.1); }
+  .funding-row:last-child { border-bottom: none; }
+  .funding-round { font-size: 11px; font-weight: 500; color: #666; min-width: 70px; }
+  .funding-bar-wrap { flex: 1; height: 6px; background: #ededea; border-radius: 3px; overflow: hidden; }
+  .funding-bar { height: 100%; border-radius: 3px; }
+  .funding-amt { font-size: 12px; font-weight: 500; color: #1a1a1a; min-width: 52px; text-align: right; }
+  .geo-list { display: flex; flex-direction: column; gap: 7px; }
+  .geo-row { display: flex; align-items: center; gap: 8px; }
+  .geo-flag { font-size: 14px; min-width: 22px; }
+  .geo-country { font-size: 12px; color: #1a1a1a; min-width: 60px; }
+  .geo-bar-wrap { flex: 1; height: 6px; background: #ededea; border-radius: 3px; overflow: hidden; }
+  .geo-bar { height: 100%; border-radius: 3px; background: #378ADD; }
+  .geo-val { font-size: 11px; color: #666; min-width: 36px; text-align: right; }
+  .comp-item { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 5px 0; border-bottom: 0.5px solid rgba(0,0,0,0.07); }
+  .comp-item:last-of-type { border-bottom: none; }
+  .comp-name { font-size: 12px; font-weight: 500; color: #1a1a1a; min-width: 80px; }
+  .comp-diff { font-size: 11px; padding: 2px 8px; border-radius: 10px; background: #ededea; color: #555; white-space: nowrap; }
+  .full-card { background: #fff; border: 0.5px solid rgba(0,0,0,0.12); border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 12px; }
+  .biz-grid { display: grid; grid-template-columns: 1fr 24px 1fr 24px 1fr; gap: 0; align-items: center; }
+  .biz-phase { background: #ededea; border-radius: 8px; padding: 10px 12px; }
+  .biz-era { font-size: 10px; font-weight: 500; color: #666; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+  .biz-rev { font-size: 18px; font-weight: 500; color: #1a1a1a; }
+  .biz-note { font-size: 11px; color: #666; margin-top: 3px; line-height: 1.3; }
+  .arrow-right { color: #aaa; font-size: 18px; display: flex; align-items: center; justify-content: center; }
+  .growth-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .growth-item { background: #ededea; border-radius: 8px; padding: 10px 12px; }
+  .growth-icon { font-size: 18px; color: #185FA5; margin-bottom: 5px; }
+  .growth-label { font-size: 12px; font-weight: 500; color: #1a1a1a; margin-bottom: 3px; }
+  .growth-desc { font-size: 11px; color: #666; line-height: 1.4; }
+  .investor-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+  .pill { font-size: 11px; padding: 3px 9px; border-radius: 10px; background: #ededea; color: #555; }
+  .pill-blue { background: #E6F1FB; color: #185FA5; font-weight: 500; }
+  .comp-edge { margin-top: 10px; padding: 9px 10px; background: #ededea; border-radius: 8px; font-size: 11px; color: #555; line-height: 1.5; }
+  .source-bar { font-size: 11px; color: #999; padding-top: 8px; border-top: 0.5px solid rgba(0,0,0,0.1); margin-top: 4px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="snap-header">
+    <div>
+      <p class="snap-title">BeReal — business snapshot</p>
+      <p class="snap-sub">Project 1 · Step 3 · BeReal Product Management Externship</p>
+    </div>
+    <span class="status-pill"><span class="status-dot"></span>Operational — subsidiary of Voodoo</span>
+  </div>
+
+  <div class="metrics-grid">
+    <div class="metric-card">
+      <div class="metric-val">40M</div>
+      <div class="metric-label">Global MAUs (2024)</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-val">70%</div>
+      <div class="metric-label">DAUs who post daily</div>
+      <div><span class="metric-badge badge-green">70x industry avg</span></div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-val">40%</div>
+      <div class="metric-label">Post within 2 min</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-val">85%</div>
+      <div class="metric-label">Gen Z audience (14–27)</div>
+      <div><span class="metric-badge badge-amber">low 28+ penetration</span></div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-val">5x</div>
+      <div class="metric-label">Engagement vs. peers</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-val">$537M</div>
+      <div class="metric-label">Acquisition price (2024)</div>
+    </div>
+  </div>
+
+  <div class="sections">
+    <div class="card">
+      <p class="card-title"><i class="ti ti-flag"></i> Founding story</p>
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2019</div><div class="tl-text">Founded in Paris by Alexis Barreyat (ex-GoPro) and Kévin Perreau. Mission: end curated social media.</div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2021</div><div class="tl-text">Series A · college ambassador program drives US growth.</div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2022</div><div class="tl-text">Viral breakout. 35M downloads in Q3. Apple App of the Year.</div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2023</div><div class="tl-text">Growth stalls. Downloads fall to 5M/quarter. No monetization path.</div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2024</div><div class="tl-text">Acquired by Voodoo for ~$537M. Launches RealBrands/RealPeople feed.</div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2025</div><div class="tl-text">In-feed ads launch. First real revenue: $30M+.</div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p class="card-title"><i class="ti ti-coin"></i> Funding & investors</p>
+      <div class="funding-row">
+        <span class="funding-round">Series A</span>
+        <div class="funding-bar-wrap"><div class="funding-bar" style="width:22%;background:#B5D4F4;"></div></div>
+        <span class="funding-amt">$30M · 2021</span>
+      </div>
+      <div class="funding-row">
+        <span class="funding-round">Series B</span>
+        <div class="funding-bar-wrap"><div class="funding-bar" style="width:44%;background:#378ADD;"></div></div>
+        <span class="funding-amt">$60M · 2022</span>
+      </div>
+      <div class="funding-row">
+        <span class="funding-round">Acquisition</span>
+        <div class="funding-bar-wrap"><div class="funding-bar" style="width:100%;background:#185FA5;"></div></div>
+        <span class="funding-amt">$537M · 2024</span>
+      </div>
+      <div class="investor-pills">
+        <span class="pill">a16z</span>
+        <span class="pill">Accel</span>
+        <span class="pill">DST Global</span>
+        <span class="pill">Coatue</span>
+        <span class="pill">Kima Ventures</span>
+        <span class="pill pill-blue">Voodoo (acquirer)</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sections">
+    <div class="card">
+      <p class="card-title"><i class="ti ti-globe"></i> Geographic reach (MAUs)</p>
+      <div class="geo-list">
+        <div class="geo-row"><div class="geo-flag">🌍</div><div class="geo-country">Global</div><div class="geo-bar-wrap"><div class="geo-bar" style="width:100%;background:#185FA5;"></div></div><div class="geo-val">40M</div></div>
+        <div class="geo-row"><div class="geo-flag">🇺🇸</div><div class="geo-country">USA</div><div class="geo-bar-wrap"><div class="geo-bar" style="width:100%;"></div></div><div class="geo-val">5.4M</div></div>
+        <div class="geo-row"><div class="geo-flag">🇯🇵</div><div class="geo-country">Japan</div><div class="geo-bar-wrap"><div class="geo-bar" style="width:83%;"></div></div><div class="geo-val">4.5M</div></div>
+        <div class="geo-row"><div class="geo-flag">🇫🇷</div><div class="geo-country">France</div><div class="geo-bar-wrap"><div class="geo-bar" style="width:83%;"></div></div><div class="geo-val">4.5M</div></div>
+        <div class="geo-row"><div class="geo-flag">🇩🇪</div><div class="geo-country">Germany</div><div class="geo-bar-wrap"><div class="geo-bar" style="width:48%;"></div></div><div class="geo-val">2.6M</div></div>
+        <div class="geo-row"><div class="geo-flag">🇪🇸</div><div class="geo-country">Spain</div><div class="geo-bar-wrap"><div class="geo-bar" style="width:41%;"></div></div><div class="geo-val">2.2M</div></div>
+        <div class="geo-row"><div class="geo-flag">🇬🇧</div><div class="geo-country">UK</div><div class="geo-bar-wrap"><div class="geo-bar" style="width:33%;"></div></div><div class="geo-val">1.8M</div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p class="card-title"><i class="ti ti-users"></i> Competition</p>
+      <div class="comp-item"><span class="comp-name">Instagram</span><span class="comp-diff">curated vs. raw</span></div>
+      <div class="comp-item"><span class="comp-name">Snapchat</span><span class="comp-diff">streaks vs. daily random</span></div>
+      <div class="comp-item"><span class="comp-name">TikTok</span><span class="comp-diff">video loops vs. one photo</span></div>
+      <div class="comp-item"><span class="comp-name">Locket</span><span class="comp-diff">passive widget vs. active post</span></div>
+      <div class="comp-item"><span class="comp-name">Poparazzi</span><span class="comp-diff">friends post for you vs. self-post</span></div>
+      <div class="comp-edge">BeReal's edge: the only platform with a forced, random-time authenticity mechanic. 5x engagement rate vs. all competitors.</div>
+    </div>
+  </div>
+
+  <div class="full-card" style="margin-bottom:12px;">
+    <p class="card-title"><i class="ti ti-building-store"></i> Business model</p>
+    <div class="biz-grid">
+      <div class="biz-phase">
+        <div class="biz-era">2020–2023</div>
+        <div class="biz-rev">$0</div>
+        <div class="biz-note">No revenue. Entirely investor-funded. No ads, no subscriptions. Official stance: "Working with brands is not our priority."</div>
+      </div>
+      <div class="arrow-right"><i class="ti ti-arrow-right"></i></div>
+      <div class="biz-phase">
+        <div class="biz-era">2024</div>
+        <div class="biz-rev">Acquired</div>
+        <div class="biz-note">Voodoo buys BeReal for $537M. Launches RealBrands/RealPeople — celebrities and brands join the platform.</div>
+      </div>
+      <div class="arrow-right"><i class="ti ti-arrow-right"></i></div>
+      <div class="biz-phase">
+        <div class="biz-era">2025</div>
+        <div class="biz-rev">$30M+</div>
+        <div class="biz-note">In-feed ads + brand takeovers launch April 2025. First real revenue. Challenge: monetize without losing authenticity.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="full-card">
+    <p class="card-title"><i class="ti ti-rocket"></i> Growth strategy</p>
+    <div class="growth-grid">
+      <div class="growth-item">
+        <div class="growth-icon"><i class="ti ti-school"></i></div>
+        <div class="growth-label">College ambassador program</div>
+        <div class="growth-desc">Key US growth driver (2021–2022). Students promote BeReal on campuses — how the app escaped France.</div>
+      </div>
+      <div class="growth-item">
+        <div class="growth-icon"><i class="ti ti-star"></i></div>
+        <div class="growth-label">RealPeople / RealBrands</div>
+        <div class="growth-desc">Launched Jan 2024. Opens platform to celebrities and brands — attempt to reignite interest after stall.</div>
+      </div>
+      <div class="growth-item">
+        <div class="growth-icon"><i class="ti ti-chart-line"></i></div>
+        <div class="growth-label">Expand beyond Gen Z</div>
+        <div class="growth-desc">Only 8% of users are 28+. Growing the older demographic is a major untapped MAU lever.</div>
+      </div>
+      <div class="growth-item">
+        <div class="growth-icon"><i class="ti ti-map-pin"></i></div>
+        <div class="growth-label">US market deepening</div>
+        <div class="growth-desc">US is only 5.4M MAUs vs. 40M global. Strong Japan/France presence — US remains the big prize.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="source-bar">Sources: BeReal official data (externship materials) · Contrary Research · Business of Apps · Tracxn · Sifted · Search Logistics</div>
+
+</div>
+</body>
+</html>
