@@ -115,6 +115,27 @@ These two case studies cover real internship work — verified deliverables, rea
 
 ---
 
+### Canvas Collaboration Teardown: Presenter Awareness in Figma Spotlight and Miro
+
+> **Self-directed** · Teardown of "follow the presenter" mechanics in two multiplayer canvas tools + mini-PRD + clickable concept prototype
+
+**Problem:** Per Figma's help center, a Spotlight presenter isn't notified when someone follows them, so in a live design review they can't tell who is actually with them. Miro facilitators report the opposite gap in a community thread (2020–2022): they can pull everyone to their view but can't release everyone. Both tools treat following as a view-sync feature rather than a social interaction where each side needs to know its state.
+
+**Proposed feature — Presenter Pulse:** A persistent, glanceable "Following 4 of 7" indicator for the presenter during a spotlight, with a live roster (no history kept) and a mutual "Visible to presenter" label for followers, plus an org-level off switch.
+
+**Scoping rationale:**
+- Persistent count, not notifications — a presenter mid-walkthrough is already managing audio, canvas, and room
+- Explicit non-goals: no attention tracking, no logging of who followed for how long, no consent-model changes
+- Privacy tradeoff documented: awareness vs. feeling monitored, with guardrail metrics and an aggregate-only fallback
+
+**RICE score vs. alternatives:** 98 (vs. "Ask everyone to follow" at 72, Async canvas walkthrough at 41, Presenter pointer trails at 40). All inputs are my estimates; the write-up separates verified claims from hypotheses.
+
+**So what:** The proposal targets repeat use of synchronous review, the multiplayer behavior these tools sell, and the prototype is built as a stimulus for research on whether a visible roster reads as helpful or as surveillance. I haven't run that research.
+
+📁 **Full teardown:** [`canvas-collaboration-teardown/`](./canvas-collaboration-teardown/) · 🖱️ **Prototype:** [`prototype.html`](./canvas-collaboration-teardown/prototype.html)
+
+---
+
 ### GitHub Actions: Flaky Test Detection & Triage
 
 > **Self-directed** · Mini-PRD for a real product gap in GitHub Actions

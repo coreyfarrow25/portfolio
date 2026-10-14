@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Presenter Pulse - Concept Prototype</title>
+<style>
+  :root {
+    --bg: #f4f5f7; --panel: #ffffff; --ink: #1d2433; --muted: #667085; --line: #dfe3ea;
+    --accent: #4f46e5; --good: #12805c; --warn: #b45309;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 14px/1.45 -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; background: var(--bg); color: var(--ink); }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 20px 16px 40px; }
+  h1 { font-size: 18px; margin: 0 0 4px; }
+  .note { color: var(--muted); font-size: 12.5px; margin: 0 0 16px; }
+  .modes { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--panel); margin-bottom: 14px; }
+  .modes button { border: 0; background: transparent; padding: 8px 14px; cursor: pointer; font: inherit; color: var(--muted); }
+  .modes button[aria-pressed="true"] { background: var(--accent); color: #fff; }
+  .stage { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+  .bar { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+  .bar .title { font-weight: 600; }
+  .spacer { flex: 1; }
+  .avatars { display: flex; }
+  .av { width: 26px; height: 26px; border-radius: 50%; color: #fff; font-size: 11px; font-weight: 600; display: grid; place-items: center; border: 2px solid var(--panel); margin-left: -6px; }
+  .av:first-child { margin-left: 0; }
+  .btn { border: 1px solid var(--line); background: var(--panel); border-radius: 8px; padding: 6px 12px; cursor: pointer; font: inherit; }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .btn:disabled { opacity: .45; cursor: default; }
+  .pill { display: none; align-items: center; gap: 6px; border-radius: 999px; padding: 5px 11px; border: 1px solid var(--line); background: #eef2ff; color: #3730a3; cursor: pointer; font: inherit; font-weight: 600; }
+  .pill.show { display: inline-flex; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--good); }
+  .canvas { position: relative; height: 370px; background:
+      radial-gradient(circle, #d6dbe5 1px, transparent 1px) 0 0 / 22px 22px, #fafbfc; }
+  .frame { position: absolute; background: #fff; border: 1px solid var(--line); border-radius: 8px; box-shadow: 0 1px 3px rgba(16,24,40,.08); padding: 8px 10px; font-size: 12px; color: var(--muted); }
+  .frame b { color: var(--ink); display: block; margin-bottom: 4px; }
+  .lines span { display: block; height: 6px; background: #e8ebf1; border-radius: 3px; margin: 5px 0; }
+  .roster { display: none; position: absolute; right: 14px; top: 56px; width: 250px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 8px 24px rgba(16,24,40,.14); padding: 10px 12px; z-index: 5; }
+  .roster.show { display: block; }
+  .roster h3 { margin: 6px 0 4px; font-size: 11px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+  .row { display: flex; align-items: center; gap: 8px; padding: 3px 0; }
+  .row .av { margin: 0; width: 22px; height: 22px; font-size: 10px; }
+  .row small { color: var(--muted); margin-left: auto; }
+  .tag { display: none; font-size: 11px; color: var(--warn); background: #fffbeb; border: 1px solid #fde68a; border-radius: 6px; padding: 3px 7px; }
+  .tag.show { display: inline-block; }
+  .cur { margin-top: 14px; display: grid; gap: 10px; grid-template-columns: 1fr 1fr; }
+  @media (max-width: 640px) { .cur { grid-template-columns: 1fr; } }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+  .card h2 { font-size: 13px; margin: 0 0 6px; }
+  .people { display: flex; flex-wrap: wrap; gap: 8px; }
+  .person { display: flex; align-items: center; gap: 6px; border: 1px solid var(--line); border-radius: 999px; padding: 3px 10px 3px 4px; background: #fff; }
+  .person .av { margin: 0; width: 22px; height: 22px; font-size: 10px; }
+  .person select { border: 0; background: transparent; font: inherit; color: var(--muted); }
+  #log { margin: 0; padding-left: 16px; color: var(--muted); font-size: 12.5px; min-height: 40px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Presenter Pulse: concept prototype</h1>
+  <p class="note">A generic mockup for a user-research stimulus. Not Figma's or Miro's UI, and not affiliated with either. All data is simulated.</p>
+
+  <div class="modes" role="group" aria-label="Behavior to show">
+    <button id="mCurrent" aria-pressed="true">Current behavior</button>
+    <button id="mProposed" aria-pressed="false">Proposed: Presenter Pulse</button>
+  </div>
+
+  <div class="stage">
+    <div class="bar">
+      <span class="title">Checkout flow review</span>
+      <span class="tag" id="followerTag" title="Shown in each follower's view">Follower view label: "Visible to presenter"</span>
+      <span class="spacer"></span>
+      <button class="pill" id="pill" aria-expanded="false"><span class="dot"></span><span id="pillText">Following 0 of 6</span></button>
+      <div class="avatars" id="avatars"></div>
+      <button class="btn primary" id="start">Spotlight me</button>
+      <button class="btn" id="stop" disabled>Stop</button>
+    </div>
+    <div class="canvas">
+      <div class="frame" style="left:28px;top:30px;width:200px;height:120px"><b>Cart</b><div class="lines"><span></span><span></span><span style="width:70%"></span></div></div>
+      <div class="frame" style="left:262px;top:70px;width:220px;height:150px"><b>Shipping</b><div class="lines"><span></span><span></span><span style="width:60%"></span><span></span></div></div>
+      <div class="frame" style="left:520px;top:30px;width:200px;height:170px"><b>Payment</b><div class="lines"><span></span><span style="width:80%"></span><span></span><span style="width:50%"></span></div></div>
+      <div class="frame" style="left:150px;top:190px;width:240px;height:80px"><b>Confirmation</b><div class="lines"><span></span><span style="width:65%"></span></div></div>
+      <div class="roster" id="roster" role="dialog" aria-label="Spotlight followers">
+        <div style="font-weight:600">Spotlight followers</div>
+        <h3>Following</h3><div id="rFollowing"></div>
+        <h3>Not following</h3><div id="rNot"></div>
+        <div style="color:var(--muted);font-size:11.5px;margin-top:8px">Live only. No history is kept.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cur">
+    <div class="card">
+      <h2>Simulate the room</h2>
+      <p class="note" style="margin-bottom:8px">When a spotlight starts, each person responds. Change a response while it is running to simulate someone leaving.</p>
+      <div class="people" id="people"></div>
+    </div>
+    <div class="card">
+      <h2>What the presenter can tell</h2>
+      <ol id="log"><li>Press "Spotlight me" to start.</li></ol>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var colors = ["#4f46e5", "#0e7490", "#b45309", "#be185d", "#15803d", "#6d28d9"];
+  var names = ["Maya", "Dev", "Priya", "Tom", "Ana", "Sam"];
+  var state = { proposed: false, live: false, status: {} };
+  names.forEach(function (n) { state.status[n] = "declined"; });
+
+  function $(id) { return document.getElementById(id); }
+  function av(n, i) { return '<span class="av" style="background:' + colors[i] + '">' + n[0] + '</span>'; }
+  function log(msg) { var li = document.createElement("li"); li.textContent = msg; $("log").appendChild(li); }
+
+  // avatars in the toolbar (collaborators in the file)
+  $("avatars").innerHTML = names.map(av).join("");
+
+  // simulate-the-room controls
+  $("people").innerHTML = names.map(function (n, i) {
+    return '<label class="person">' + av(n, i) + '<span>' + n + '</span>' +
+      '<select data-n="' + n + '"><option value="following">following</option><option value="declined">declined</option><option value="left">left</option></select></label>';
+  }).join("");
+  Array.prototype.forEach.call(document.querySelectorAll("select[data-n]"), function (s) {
+    s.value = "following";
+    s.addEventListener("change", function () {
+      state.status[s.dataset.n] = s.value;
+      if (state.live) {
+        render();
+        log(s.dataset.n + " is now " + s.value + (state.proposed ? ". Presenter sees it in the roster." : ". Presenter sees no change."));
+      }
+    });
+  });
+
+  function followingCount() { return names.filter(function (n) { return state.status[n] === "following"; }).length; }
+
+  function render() {
+    var show = state.live && state.proposed;
+    $("pill").classList.toggle("show", show);
+    $("followerTag").classList.toggle("show", show);
+    if (!show) { $("roster").classList.remove("show"); $("pill").setAttribute("aria-expanded", "false"); }
+    $("pillText").textContent = "Following " + followingCount() + " of " + names.length;
+    $("rFollowing").innerHTML = names.map(function (n, i) { return state.status[n] === "following" ? '<div class="row">' + av(n, i) + n + '</div>' : ""; }).join("") || '<div class="row" style="color:var(--muted)">No one</div>';
+    $("rNot").innerHTML = names.map(function (n, i) { return state.status[n] !== "following" ? '<div class="row">' + av(n, i) + n + '<small>' + state.status[n] + '</small></div>' : ""; }).join("") || '<div class="row" style="color:var(--muted)">No one</div>';
+    $("start").disabled = state.live;
+    $("stop").disabled = !state.live;
+  }
+
+  $("start").addEventListener("click", function () {
+    state.live = true;
+    Array.prototype.forEach.call(document.querySelectorAll("select[data-n]"), function (s) { state.status[s.dataset.n] = s.value; });
+    $("log").innerHTML = "";
+    log("Spotlight started. " + (state.proposed ? "Presenter sees Following " + followingCount() + " of " + names.length + "." : "Presenter has no indicator of who is following."));
+    render();
+  });
+  $("stop").addEventListener("click", function () { state.live = false; log("Spotlight stopped."); render(); });
+  $("pill").addEventListener("click", function () {
+    var open = $("roster").classList.toggle("show");
+    $("pill").setAttribute("aria-expanded", String(open));
+  });
+
+  function setMode(p) {
+    state.proposed = p;
+    $("mCurrent").setAttribute("aria-pressed", String(!p));
+    $("mProposed").setAttribute("aria-pressed", String(p));
+    render();
+  }
+  $("mCurrent").addEventListener("click", function () { setMode(false); });
+  $("mProposed").addEventListener("click", function () { setMode(true); });
+  render();
+})();
+</script>
+</body>
+</html>
