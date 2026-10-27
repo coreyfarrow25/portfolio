@@ -81,6 +81,29 @@ Mapping the flows exposed two gaps in the separate models, and I added fields to
 - UBC had nowhere to store DigiSonos's own PO number, so I added `customer_order.customer_po_number`.
 - UBC had nowhere to store what the customer actually accepted, so I added `shipment_line.qty_accepted`. A/R needs that quantity to check payments.
 
+## MP6: Pressly Ad Agency
+
+The previous consultant had loaded Pressly's campaign spreadsheet straight into the database as one big table. My job was to normalize it while still giving staff who don't know SQL the same spreadsheet layout.
+
+**Normalizing to 3NF.** The key of the original table is (AdCampaignID, TypeID).
+
+- **1NF:** every value was already atomic.
+- **2NF:** this removed partial dependencies.
+  - Campaign name, start date and duration depend only on the campaign, so they moved to `AD_CAMPAIGN`.
+  - Media, range and the responsible manager depend only on the ad type, so they moved to `AD_TYPE`.
+  - Budget percentage depends on both parts of the key, so it stays in the association table `CAMPAIGN_TYPE`.
+- **3NF:** this removed the transitive dependency. Manager name depends on ManagerID, not on the key, so it moved to `MANAGER`.
+
+**Building it.** The notebook does five things, in order:
+
+1. Drops any existing objects in dependency order: the view, then the child tables, then the parent tables.
+2. Creates the four tables with primary keys, foreign keys and proper types. Dates are stored as `DATE`, and budget shares as a decimal (0.50 rather than "50%").
+3. Loads the data, parents first.
+4. Applies an `UPDATE` to rename a manager.
+5. Creates the `BIG_TABLE` view, which joins the four tables back into the original spreadsheet's columns, order and formats (`M/d/yyyy` dates, budget shown as a percentage).
+
+The data is now stored once and stays consistent, and anyone who wants the old spreadsheet can still query a single table.
+
 ## Opening the models in MySQL Workbench
 
 Each `*_schema.sql` file is a MySQL create script. In MySQL Workbench 8.x, go to **File > Import > Reverse Engineer MySQL Create Script**, tick "Place imported objects on a diagram", and you get an editable `.mwb` model with the PK and FK symbols and crow's-foot relationships.
