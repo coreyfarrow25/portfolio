@@ -19,9 +19,9 @@ def nb(cells):
 mp1 = [
 ("md", """
 # MP1 - SmallBank (A)
-**Corey Farrow** · Comm3220 DM4DM
+**Corey Farrow** · SQL & Data Modeling portfolio
 
-Server `f-sg6m-s4.comm.virginia.edu`, database `SmallBankDB` (T-SQL).
+Database `SmallBankDB` (T-SQL).
 
 Formatting rules from the assignment: money with `$`, commas and no decimals (`FORMAT(x,'C0')`); integers with commas (`'N0'`); interest rates with three decimals (`'N3'`). `FORMAT` returns text, so every `ORDER BY` sorts on the original numeric column.
 """),
@@ -139,9 +139,9 @@ ORDER BY YEAR(date_due);
 mp3 = [
 ("md", """
 # MP3 - SmallBank (B)
-**Corey Farrow** · Comm3220 DM4DM
+**Corey Farrow** · SQL & Data Modeling portfolio
 
-Server `f-sg6m-s4.comm.virginia.edu`, database `SmallBankDB` (T-SQL).
+Database `SmallBankDB` (T-SQL).
 
 Join path: `LOAN_OFFICER` -> `LOAN` (lo_id) -> `CUSTOMER_IN_LOAN` (l_id) -> `CUSTOMER` (c_id). `INSURANCE_PLAN` hangs off `CUSTOMER` (c_id) and is optional, so it is reached with a LEFT JOIN.
 

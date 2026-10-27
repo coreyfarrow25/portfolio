@@ -2,11 +2,13 @@
 
 ## Start Here
 
-Two things before you scroll:
+Three things before you scroll:
 
 → **[DORA Metrics Dashboard](./dora-metrics-dashboard/)** — a working Python CLI that pulls all four DevOps performance metrics for any GitHub repo and classifies them against DORA's Elite/High/Medium/Low bands. The [README](./dora-metrics-dashboard/) documents proxy decisions the same way a PRD documents scope decisions.
 
 → **[GitHub Actions: Flaky Test Detection](./github-actions-case-study/)** — a full feature teardown + mini-PRD for a real gap in CI/CD tooling. RICE scoring, competitive benchmarks against BuildKite and CircleCI, and explicit tradeoff documentation.
+
+→ [**SQL & Data Modeling**](./sql-data-modeling/) — 24 queries, four schemas and a normalization project, each framed by the business question it answers. Includes the traps that make a metric wrong: double-counted co-borrowers, ties that vanish under `TOP 1`, and "no match" rows that silently drop out of a report.
 
 **What I bring:** UVA Sociology (Organizations & Work) + two PM internships + a BeReal PM externship. My edge is reading the gap between how systems are designed and how people actually use them — then translating that into product decisions that can be scoped, prioritized, and shipped.
 
@@ -222,6 +224,27 @@ Built this to understand what DevOps teams actually measure and where the toolin
 
 ---
 
+### SQL & Data Modeling — T-SQL / MySQL
+
+> **Built project** · 24 analytical queries, 4 schemas, 1 normalization build
+
+I use SQL to answer product questions directly and to model data before it's built. The queries cover exposure sizing, ranking, segmentation and gap-finding (who *isn't* in the data). The modeling work covers a streaming service, a B2B sales system, and mapping the data flows between two companies.
+
+```sql
+-- Who manages the least money? WITH TIES so a tie isn't silently dropped.
+SELECT TOP 1 WITH TIES lo.lo_id, lo.l_name, SUM(l.principal) AS managed
+FROM LOAN_OFFICER lo JOIN LOAN l ON lo.lo_id = l.lo_id
+WHERE l.date_due >= CAST(GETDATE() AS DATE)
+GROUP BY lo.lo_id, lo.l_name
+ORDER BY SUM(l.principal) ASC;
+```
+
+**So what:** the skill is knowing what makes a number wrong before it reaches a roadmap review. Co-borrowers double-counting a loan, NULLs forming their own group, and customers with no match disappearing from a report are the same errors that distort retention, funnel and adoption metrics.
+
+📁 [`sql-data-modeling/`](./sql-data-modeling/)
+
+---
+
 ## Technical Skills
 
 ---
@@ -242,7 +265,7 @@ The skill that transfers to PM work: using data to reframe the question, not jus
 
 ---
 
-### Statistics Coursework (R + Python)
+### Statistics for Product Analytics (R + Python)
 
 Regression analysis, hypothesis testing, probability, and survey data analysis (General Social Survey). These are the mechanics behind interpreting A/B test results, evaluating statistical significance of product metrics, and reading a data team's analysis without getting lost.
 
