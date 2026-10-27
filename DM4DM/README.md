@@ -10,7 +10,7 @@ The course runs from relational SQL and data modeling into business intelligence
 | [MP2](./MP2-Notflix/) | Notflix | ER modeling: resolving many-to-many with association tables, 1:1, cardinalities | ERD (PDF/PNG) and DDL |
 | [MP3](./MP3-SmallBank-B/) | SmallBank (B) | Multi-table joins, `LEFT JOIN` and anti-joins, `HAVING`, `TOP n PERCENT`, `WITH TIES`, `COUNT(DISTINCT)` | `MP3 Farrow.ipynb` (12 queries) |
 | [MP4](./MP4-UBC-Sales/) | DigiSonos and UBC: one business function | Modeling a function from a vague business write-up (my function: UBC Sales) | ERD (PDF/PNG) and MySQL DDL |
-| [MP5](./MP5-B2B-Integration/) | B2B data integration (team) | Merging three functional models into one company model, then mapping the data that flows between two companies | Two integrated ERDs, a data-flow diagram, MySQL DDL |
+| [MP5](./MP5-B2B-Integration/) | B2B data integration (team of 4, then 7) | Merging our individual functional models into one company model as a team of four, then mapping the data that flows between the two companies with a second team of three | Two integrated ERDs, a data-flow diagram, MySQL DDL |
 | [MP6](./MP6-Pressly/) | Pressly Ad Agency | Normalization to 3NF, `CREATE TABLE`, `INSERT`, and a view that rebuilds the old spreadsheet | `MP6 Farrow.ipynb` |
 
 ## MP1 and MP3: SmallBank (SQL Server)
@@ -48,6 +48,11 @@ Each customer has one account, which holds several users and a monthly payment h
 
 ## MP5: B2B integration
 
+MP5 was a team project in two stages:
+
+- **Part one (four people):** I worked with three other consultants assigned to UBC. Each of us brought our own MP4 diagram to the table. We had to agree on one version of the tables we had all modeled differently (customer, order, line item, product, employee), decide where each foreign key belonged, and keep every function's requirements working in the merged model.
+- **Part two (seven people):** our group of four joined a group of three who had modeled DigiSonos. Together we traced each step of the B2B process across both companies' models. That meant agreeing on which fields one company sends and where the other company stores them, and fixing the gaps we found along the way.
+
 **Task One** merges three functional models per company and removes the duplicate tables (customer, order, line item, product, employee):
 
 - **UBC (Sales, Shipping, A/R):**
@@ -82,7 +87,7 @@ Each `*_schema.sql` file is a MySQL create script. In MySQL Workbench 8.x, go to
 
 ## Notes
 
-- These files were rebuilt from the assignment write-ups and the instructor's hint models. They are not the files I originally submitted. The MP4 and MP5 ERDs were originally team-coordinated work, with Harsha Nelluri (Shipping) and Kudum (A/R) on UBC.
+- These files were rebuilt from the assignment write-ups and the instructor's hint models. They are not the files I originally submitted. The original MP5 diagrams were built together with my teammates, as described above.
 - The queries were syntax-checked but not re-run against SmallBankDB, which needs the UVA VPN.
 - The diagrams are generated from code in [`_tools/`](./_tools/): `models.py` holds every table and relationship, and `render.py` draws the ERDs and writes the DDL.
 - The course materials are the work of Prof. Stefano Grazioli and are used with acknowledgment.
